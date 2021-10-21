@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block 'container' %}
+<h1 class="mt-3 mb-3">Login</h1>
+{% include 'inc/messages.html' %}
+
+<form method="post" action="{% url 'login' %}">
+    {% include 'inc/messages.html' %}
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" name="user" value="{{ request.POST.user }}" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Senha</label>
+        <input type="password" name="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Entrar</button>
+</form>
+
+{% endblock %}
