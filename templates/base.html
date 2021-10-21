@@ -1,0 +1,15 @@
+{% load static %}
+
+{% include 'inc/header.html' %}
+{% include 'inc/nav.html' %}
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        {%block 'container'%}{%endblock%}
+      </div>
+    </div>
+  </div>
+
+{% include 'inc/footer.html' %}
