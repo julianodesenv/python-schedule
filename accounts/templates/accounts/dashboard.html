@@ -10,4 +10,18 @@
     <a href="{% url 'logout' %}" class="btn btn-danger">Sair</a>
 </p>
 
+<div class="container">
+    <form action="{% url 'dashboard' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table">
+            {{ form}}
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 {% endblock %}

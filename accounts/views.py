@@ -3,6 +3,7 @@ from django.contrib import messages, auth
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .models import FormContact
 
 
 def login(request):
@@ -76,4 +77,28 @@ def register(request):
     
 @login_required(redirect_field_name='login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    if request.method != 'POST':
+        form = FormContact()
+        return render(request, 'accounts/dashboard.html', {'form': form})
+    
+    form = FormContact(request.POST, request.FILES)
+    error = False
+    msg_error = None
+    if not form.is_valid():
+        error = True
+        msg_error = 'Erro ao enviar formulário.'
+
+    description = request.POST.get('description')
+    if len(description) < 5:
+        error = True
+        msg_error = 'Descrição precisa ter mais que 5 caracteres.'
+
+    if error:        
+        messages.error(request, msg_error)
+        form = FormContact(request.POST)
+        return render(request, 'accounts/dashboard.html', {'form': form})
+
+    form.save()
+    messages.success(request, 'Cadastro realizado com sucesso!')
+    return redirect('dashboard')
+
