@@ -16,6 +16,7 @@ class Contact(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    view = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
