@@ -17,6 +17,7 @@ class Contact(models.Model):
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     view = models.BooleanField(default=True)
+    image = models.ImageField(blank=True, upload_to='photos/%Y/%m')
 
     def __str__(self):
         return self.name

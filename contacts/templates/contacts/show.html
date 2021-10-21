@@ -1,6 +1,11 @@
 {%extends 'base.html'%}
 {%block 'container'%}
 <h1 class="mt-5">{{ contact.name }} {{ contact.last_name }}</h1>
+{% if contact.image %}
+<p>
+    <img src="{{ contact.image.url }}" width="500px" />
+</p>
+{% endif %}
 <dl>
     <dt>ID</dt>
     <dd>{{ contact.id }}</dd>
