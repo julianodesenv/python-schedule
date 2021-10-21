@@ -1,9 +1,20 @@
 {%extends 'base.html'%}
 {%block 'container'%}
 <h1 class="mt-5">Minha agenda</h1>
+
+<hr>
+<form method="get" action="{% url 'search' %}">
+  <div class="form-group row">
+    <div class="col-12">
+      <input class="form-control" type="search" value="{{ request.GET.term }}" id="search-input" placeholder="Digite sua pesquisa" name="term" />
+    </div>
+  </div>
+</form>
+
 <table class="table">
     <thead>
     <tr>
+        <th>#</th>
         <th>Nome</th>
         <th>Sobrenome</th>
         <th>Telefone</th>
@@ -12,8 +23,8 @@
     </thead>
     <tbody>
     {% for contact in contacts %}
-        {% if contact.view %}
         <tr>
+            <td>{{ contact.id }}</td>
             <td>
             <a href="{% url 'show' contact.id %}"> {{ contact.name }}</a>
             </td>
@@ -21,7 +32,6 @@
             <td>{{ contact.phone }}</td>
             <td>{{ contact.category }}</td>
         </tr>
-        {% endif%}
     {% endfor %}
     </tbody>
 </table>
@@ -29,21 +39,21 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         {% if contacts.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="?page=1&term={{ request.GET.term }}">&laquo; First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}&term={{ request.GET.term }}">Previous</a></li>
         {% endif %}
 
         {% for page in contacts.paginator.page_range %}
             {% if contacts.number == page %}
-                <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                <li class="page-item active"><a class="page-link" href="?page={{ page }}&term={{ request.GET.term }}">{{ page }}</a></li>
             {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page }}&term={{ request.GET.term }}">{{ page }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if contacts.has_next %}            
-            <li class="page-item"><a class="page-link" href="?page={{ contacts.next_page_number }}">Next</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{ contacts.paginator.num_pages }}">Last &raquo;</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ contacts.next_page_number }}&term={{ request.GET.term }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ contacts.paginator.num_pages }}&term={{ request.GET.term }}">Last &raquo;</a></li>
         {% endif %}
     </ul>
 </nav>
